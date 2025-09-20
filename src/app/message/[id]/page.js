@@ -123,24 +123,7 @@ export default function MessageDetailPage() {
             </div>
           )}
 
-          {/* Aksi share */}
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
-           
-            <button
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(window.location.href);
-                  alert("Link disalin!");
-                } catch {
-                  alert("Gagal menyalin link.");
-                }
-              }}
-              className="text-gray-700 text-black rounded-lg shadow hover:bg-gray-100 transition font-sans p-2"
-            >
-              Salin Link
-            </button>
-
-          </div>
+          
              {/* Waktu relatif */}
              <p className="text-xs text-gray-400 mb-4 pt-4">
             {item.created_at?.toDate
