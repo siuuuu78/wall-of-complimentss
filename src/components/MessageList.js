@@ -124,6 +124,17 @@ export default function MessageList({ searchName }) {
                   <span className=" text-sm group-hover:underline">
                     See More →
                   </span>
+
+                  {msg.song?.previewUrl && (
+                    <div className="mt-3 flex items-center gap-3">
+                      <img src={msg.song.artworkUrl100} alt={msg.song.trackName} className="w-10 h-10 rounded" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium truncate">{msg.song.trackName}</p>
+                        <p className="text-xs text-gray-500 truncate">{msg.song.artistName}</p>
+                        <audio controls src={msg.song.previewUrl} className="w-full mt-1" />
+                      </div>
+                    </div>
+                  )}  
                 </div>
               </div>
             </Link>

@@ -3,10 +3,12 @@ import { useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import SongPicker from "./SongPicker";
 
 export default function MessageForm() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [song, setSong] = useState(null);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
 
@@ -17,6 +19,7 @@ export default function MessageForm() {
     await addDoc(collection(db, "compliments"), {
       name,
       message,
+      song: song || null, 
       created_at: serverTimestamp(),
     });
 
@@ -58,6 +61,31 @@ export default function MessageForm() {
           className="w-full p-2 shadow rounded font-sans focus:outline"
         />
         <p className="text-right text-xs text-gray-500 font-sans">{message.length}/140</p>
+
+         {/* Picker lagu (opsional) */}
+         <div className="pt-2 border-t">
+          <p className="font-medium mb-2">Tambahkan lagu (opsional)</p>
+          {song ? (
+            <div className="p-3 bg-gray-50 rounded border flex items-center gap-3">
+              <img src={song.artworkUrl100} alt={song.trackName} className="w-12 h-12 rounded" />
+              <div className="text-sm">
+                <p className="font-semibold">{song.trackName}</p>
+                <p className="text-gray-500">{song.artistName}</p>
+                {song.previewUrl && <audio controls src={song.previewUrl} className="w-full mt-2" />}
+              </div>
+              <button
+                type="button"
+                onClick={() => setSong(null)}
+                className="ml-auto px-3 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
+              >
+                Hapus
+              </button>
+            </div>
+          ) : (
+            <SongPicker onSelect={setSong} />
+          )}
+        </div>
+
         <button
           type="submit"
           className="w-full shadow  text-black py-2 rounded hover:bg-gray-100 transition font-sans"
