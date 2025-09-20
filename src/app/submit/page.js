@@ -11,11 +11,12 @@ export default function SubmitPage() {
           Tulis pesan untuk temanmu!
         </p>
         <Link
-          href="/"
-          className="inline-block shadow mb-6 px-4 py-2  text-black rounded hover:bg-gray-50 transition font-sans"
-        >
-          ← Kembali
-        </Link>
+            href="/"
+            className="text-sm text-black rounded-lg shadow hover:bg-gray-100 transition font-sans p-2 "
+            aria-label="Ke beranda"
+          >
+            Beranda
+          </Link>
       </div>
 
       {/* Form */}
