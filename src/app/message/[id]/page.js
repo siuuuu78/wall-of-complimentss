@@ -55,20 +55,17 @@ export default function MessageDetailPage() {
 
   return (
     <main className="min-h-screen w-full px-4 sm:px-6 lg:px-8 py-10 flex flex-col items-center">
+         {/* Judul */}
+      <h1 className="text-4xl font-bold tracking-tight mb-6 text-center font-sans">
+         Wall of Compliments 
+      </h1>
       <div className="w-full max-w-3xl">
         {/* Nav kecil */}
         <div className="mb-6 flex items-center justify-between">
-          <button
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-2 text-blue-600 hover:underline"
-            aria-label="Kembali"
-          >
-            ← Kembali
-          </button>
-
+        
           <Link
             href="/"
-            className="text-sm text-gray-600 hover:text-gray-800"
+            className="text-sm text-black rounded-lg shadow hover:bg-gray-100 transition font-sans p-2 "
             aria-label="Ke beranda"
           >
             Beranda
@@ -80,7 +77,7 @@ export default function MessageDetailPage() {
           <header className="mb-3">
             <p className="text-sm text-gray-500">
               To:{" "}
-              <span className="font-semibold text-blue-600 break-words [overflow-wrap:anywhere]">
+              <span className="font-semibold  break-words [overflow-wrap:anywhere]">
                 {item.name}
               </span>
             </p>
@@ -89,7 +86,7 @@ export default function MessageDetailPage() {
           {/* Pesan full */}
           <p
             className="
-              text-xl leading-relaxed mb-4 font-[var(--font-caveat)]
+              text-2xl leading-relaxed mb-4 font-caveat
               whitespace-pre-wrap break-words
               [overflow-wrap:anywhere] [word-break:break-word]
             "
@@ -97,16 +94,10 @@ export default function MessageDetailPage() {
             {item.message}
           </p>
 
-          {/* Waktu relatif */}
-          <p className="text-xs text-gray-400 mb-4">
-            {item.created_at?.toDate
-              ? formatDistanceToNow(item.created_at.toDate(), { addSuffix: true })
-              : "Baru saja"}
-          </p>
 
           {/* Blok lagu (opsional, muncul hanya jika ada item.song dari iTunes API) */}
           {item.song && (
-            <div className="mt-4 p-3 bg-gray-50 rounded border flex flex-col sm:flex-row gap-3">
+            <div className="mt-4 p-3 bg-gray-50 rounded shadow flex flex-col sm:flex-row gap-3">
               <img
                 src={item.song.artworkUrl100}
                 alt={item.song.trackName}
@@ -123,7 +114,7 @@ export default function MessageDetailPage() {
                     href={item.song.trackViewUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block mt-2 text-blue-600 hover:underline text-sm"
+                    className="inline-block mt-2  text-sm"
                   >
                     Buka di Apple Music
                   </a>
@@ -134,22 +125,7 @@ export default function MessageDetailPage() {
 
           {/* Aksi share */}
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-600 hover:underline"
-            >
-              Bagikan ke WhatsApp
-            </a>
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              Bagikan ke Twitter/X
-            </a>
+           
             <button
               onClick={async () => {
                 try {
@@ -159,11 +135,18 @@ export default function MessageDetailPage() {
                   alert("Gagal menyalin link.");
                 }
               }}
-              className="text-gray-700 hover:underline"
+              className="text-gray-700 text-black rounded-lg shadow hover:bg-gray-100 transition font-sans p-2"
             >
               Salin Link
             </button>
+
           </div>
+             {/* Waktu relatif */}
+             <p className="text-xs text-gray-400 mb-4 pt-4">
+            {item.created_at?.toDate
+              ? formatDistanceToNow(item.created_at.toDate(), { addSuffix: true })
+              : "Baru saja"}
+          </p>
         </article>
       </div>
     </main>

@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import { format } from "date-fns";
 
-const PREVIEW_CHARS = 30; // jumlah karakter yang tampil di list
+const PREVIEW_CHARS = 25; // jumlah karakter yang tampil di list
 
 export default function MessageList({ searchName }) {
   const [messages, setMessages] = useState([]);
@@ -115,26 +115,23 @@ export default function MessageList({ searchName }) {
                   {preview}
                 </p>
 
-                <div className="flex items-center justify-between">
-                <p className="text-xs text-gray-400">
-            {msg.created_at?.toDate
-              ? format(msg.created_at.toDate(), "dd MMM yyyy HH:mm")
-              : "Baru saja"}
-          </p>
-                  <span className=" text-sm group-hover:underline">
-                    See More →
-                  </span>
-
-                  {msg.song?.previewUrl && (
+                
+                {msg.song?.previewUrl && (
                     <div className="mt-3 flex items-center gap-3">
                       <img src={msg.song.artworkUrl100} alt={msg.song.trackName} className="w-10 h-10 rounded" />
                       <div className="min-w-0">
                         <p className="text-xs font-medium truncate">{msg.song.trackName}</p>
                         <p className="text-xs text-gray-500 truncate">{msg.song.artistName}</p>
-                        <audio controls src={msg.song.previewUrl} className="w-full mt-1" />
                       </div>
                     </div>
                   )}  
+
+                <div className="flex pt-4 items-center justify-between">
+                <p className="text-xs text-gray-400">
+            {msg.created_at?.toDate
+              ? format(msg.created_at.toDate(), "dd MMM yyyy HH:mm")
+              : "Baru saja"}
+          </p>
                 </div>
               </div>
             </Link>

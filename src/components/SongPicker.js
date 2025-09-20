@@ -6,9 +6,8 @@ export default function SongPicker({ onSelect }) {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
-  const search = async (e) => {
-    e?.preventDefault?.();
-    if (!q.trim()) return;
+  const search = async () => {
+    if (!q.trim() || loading) return;
     setLoading(true);
     try {
       const res = await fetch(`/api/itunes?term=${encodeURIComponent(q)}&limit=8`);
@@ -19,36 +18,53 @@ export default function SongPicker({ onSelect }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      // Jangan submit form utama
+      e.preventDefault();
+      search();
+    }
+  };
+
   return (
     <div className="space-y-3">
-      <form onSubmit={search} className="flex gap-2">
+      {/* BUKAN form: hanya wrapper biasa */}
+      <div className="flex gap-2">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Cari lagu (judul/artist)…"
-          className="flex-1 p-2 border rounded"
+          className="flex-1 p-2 shadow rounded"
         />
-        <button className="px-4 bg-blue-500 text-white rounded">Cari</button>
-      </form>
+        <button
+          type="button"               
+          onClick={search}
+          disabled={loading}
+          className="px-4 bg-white text-black rounded disabled:opacity-50"
+        >
+          {loading ? "Mencari…" : "Cari"}
+        </button>
+      </div>
 
       {loading && <p className="text-sm text-gray-500">Mencari…</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {results.map((r) => (
-          <div key={r.trackId} className="p-3 bg-gray-50 rounded border">
+          <div key={r.trackId} className="p-3 bg-gray-50 rounded ">
             <div className="flex gap-3">
               <img
                 src={r.artworkUrl100}
                 alt={r.trackName}
                 className="w-16 h-16 rounded object-cover"
               />
-              <div className="text-sm">
-                <p className="font-semibold">{r.trackName}</p>
-                <p className="text-gray-500">{r.artistName}</p>
-                <audio controls src={r.previewUrl} className="w-full mt-2" />
+              <div className="text-sm min-w-0">
+                <p className="font-semibold truncate">{r.trackName}</p>
+                <p className="text-gray-500 truncate">{r.artistName}</p>
               </div>
             </div>
             <button
+              type="button"           
               onClick={() =>
                 onSelect({
                   trackId: r.trackId,
@@ -60,7 +76,7 @@ export default function SongPicker({ onSelect }) {
                   collectionName: r.collectionName,
                 })
               }
-              className="mt-3 w-full px-3 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600"
+              className="mt-3 w-full px-3 py-2 bg-white text-black shadow rounded hover:bg-gray-100"
             >
               Pilih Lagu Ini
             </button>
