@@ -34,7 +34,7 @@ export default function SongPicker({ onSelect }) {
           onChange={(e) => setQ(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Cari lagu (judul/artist)…"
-          className="w-full sm:flex-1 h-12 px-3 border rounded"
+          className="w-full sm:flex-1 h-12 px-3 shadow rounded"
         />
         <button
           type="button"
